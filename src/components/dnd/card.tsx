@@ -7,7 +7,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { type Task } from "~/interfaces/task";
+import { Task } from "@prisma/client";
+
 
 export default function DndCard(task: Task) {
  

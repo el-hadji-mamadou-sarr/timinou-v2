@@ -10,22 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Project {
+    id                      Int      @id @default(autoincrement())
+    project_name            String   @db.VarChar(255)
+    createdAt               DateTime @default(now()) 
+    updatedAt               DateTime @updatedAt
+    createdBy               Int
+    User                    User   @relation(fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    tasks                   Task[]
+    @@index([project_name])
+}
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+model Task {
+    id                      Int         @id @default(autoincrement())
+    task_name               String      @db.VarChar(255)
+    task_description        String      @db.VarChar(255)
+    neglected               Int
+    progress                Int
+    createdAt               DateTime @default(now())
+    updatedAt               DateTime @updatedAt
+    projectId               Int 
+    Project                 Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-    @@index([name])
+    @@index([task_name])
 }
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
+    id                Int      @id @default(autoincrement())
+    userId            Int
     type              String
     provider          String
     providerAccountId String
@@ -42,22 +55,22 @@ model Account {
 }
 
 model Session {
-    id           String   @id @default(cuid())
+    id      Int      @id @default(autoincrement())
     sessionToken String   @unique
-    userId       String
+    userId       Int
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id      Int      @id @default(autoincrement())
     name          String?
     email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    projects         Project[]
 }
 
 model VerificationToken {
