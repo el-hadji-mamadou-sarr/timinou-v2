@@ -3,19 +3,26 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { type DropResult } from "react-beautiful-dnd";
 import dynamic from "next/dynamic";
 import DndCard from "~/components/dnd/card";
+import { type Task } from "~/interfaces/task";
 
-interface Quote {
-  id: string;
-  content: string;
-}
-
-const initial = Array.from({ length: 10 }, (v, k) => k).map((k) => {
-  const custom: Quote = {
-    id: `id-${k}`,
-    content: `Quote ${k}`,
-  };
-  return custom;
-});
+const initial: Task[] = [
+  {
+    id: "1",
+    task_name: "design figma",
+    task_description:
+      "faire un design page acceuil et page liste des créations",
+    neglected: 70,
+    progress: 10,
+  },
+  {
+    id: "2",
+    task_name: "design figma",
+    task_description:
+      "faire un design page acceuil et page liste des créations",
+    neglected: 70,
+    progress: 10,
+  },
+];
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list);
@@ -25,9 +32,9 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   return result;
 }
 
-function QuoteItem({ quote, index }: { quote: Quote; index: number }) {
+function TaskItem({ task, index }: { task: Task; index: number }) {
   return (
-    <Draggable draggableId={quote.id} index={index}>
+    <Draggable draggableId={task.id} index={index}>
       {(provided) => (
         <div
           className="mb-4 w-full"
@@ -35,24 +42,20 @@ function QuoteItem({ quote, index }: { quote: Quote; index: number }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <DndCard />
+          <DndCard {...task} />
         </div>
       )}
     </Draggable>
   );
 }
 
-const QuoteList = React.memo(function QuoteList({
-  quotes,
-}: {
-  quotes: Quote[];
-}) {
-  return quotes.map((quote: Quote, index: number) => (
-    <QuoteItem quote={quote} index={index} key={quote.id} />
+const TaskList = React.memo(function TaskList({ tasks }: { tasks: Task[] }) {
+  return tasks.map((task: Task, index: number) => (
+    <TaskItem task={task} index={index} key={task.id} />
   ));
 });
 
-function QuoteApp() {
+function Dashboard() {
   const [state, setState] = useState({ quotes: initial });
   const [winReady, setwinReady] = useState(false);
   useEffect(() => {
@@ -90,7 +93,7 @@ function QuoteApp() {
               <h1 className="mb-5 text-2xl font-semibold text-primary">
                 Heritage Hub
               </h1>
-              <QuoteList quotes={state.quotes} />
+              <TaskList tasks={state.quotes} />
               {provided.placeholder}
             </div>
           )}
@@ -100,4 +103,4 @@ function QuoteApp() {
   );
 }
 
-export default QuoteApp;
+export default Dashboard;

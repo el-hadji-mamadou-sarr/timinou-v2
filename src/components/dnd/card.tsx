@@ -7,24 +7,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { type Task } from "~/interfaces/task";
 
-export default function DndCard() {
+export default function DndCard(task: Task) {
+ 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-tertiary">Design Figma</CardTitle>
+        <CardTitle className="text-tertiary">{task.task_name}</CardTitle>
         <CardDescription className="text-lg text-white ">
-          faire un design page acceuil figma, et page listes et création
+          {task.task_description}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-3">
         <div>
           <h3 className="mb-2.5 text-primary">Neglected</h3>
-          <Progress className="bg-tertiary" value={33} />
+          <Progress className="bg-tertiary" value={task.neglected} />
         </div>
         <div>
           <h3 className="mb-2.5 text-primary">Progress</h3>
-          <Progress value={33} className="bg-lightGreen" />
+          <Progress value={task.progress} className="bg-lightGreen" />
         </div>
       </CardContent>
       {/* <CardFooter>
