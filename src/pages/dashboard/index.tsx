@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { type DropResult } from "react-beautiful-dnd";
 import dynamic from "next/dynamic";
+import DndCard from "~/components/dnd/card";
 
 interface Quote {
   id: string;
@@ -29,12 +30,12 @@ function QuoteItem({ quote, index }: { quote: Quote; index: number }) {
     <Draggable draggableId={quote.id} index={index}>
       {(provided) => (
         <div
-          className="bg-light-blue-200 mb-4 w-48 border border-gray-300 p-4"
+          className="mb-4 w-full"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {quote.content}
+          <DndCard />
         </div>
       )}
     </Draggable>
@@ -81,7 +82,14 @@ function QuoteApp() {
       {winReady ? (
         <Droppable droppableId="list">
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+            <div
+              className="px-4 py-2"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              <h1 className="mb-5 text-2xl font-semibold text-primary">
+                Heritage Hub
+              </h1>
               <QuoteList quotes={state.quotes} />
               {provided.placeholder}
             </div>

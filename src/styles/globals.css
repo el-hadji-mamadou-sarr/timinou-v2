@@ -1,13 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
+  html {
+    font-family: "Inter", sans-serif;
+  }
   :root {
     --background: 217 12% 13%;
     --primary: 39 67% 69%;
+    --tertiary: 220 100% 66%;
+    --lightGreen: 95 38% 62%;
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
+    --card: 100 2% 31%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
